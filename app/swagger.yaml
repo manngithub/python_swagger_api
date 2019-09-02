@@ -1,0 +1,56 @@
+swagger: "2.0"
+info:
+  description: This is the swagger file that goes with our server code
+  version: "0.1"
+  title: Salary Estimator
+consumes:
+  - "application/json"
+produces:
+  - "application/json"
+
+# Paths supported by the server application
+paths:
+  /predictions:
+    post:
+      operationId: server.salary_prediction
+      summary: "Mapping of years of experience to salary"
+      parameters:
+        - name: data
+          in: body
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Query'
+      responses:
+        200:
+          description: "Successful predicting the salary"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Prediction'
+
+definitions:
+  Prediction:
+    type: object
+    required:
+      - Salary
+      - Experience
+    properties:
+      Salary:
+        type: number
+        description: Predicted value of salary
+        example: 43918.48
+        readOnly: true
+      Experience:
+        type: number
+        description: years of work experience
+        example: 1.8
+        readOnly: true
+  Query:
+    type: object
+    required:
+      - Experience
+    properties:
+      Experience:
+        type: number
+        description: years of work experience
